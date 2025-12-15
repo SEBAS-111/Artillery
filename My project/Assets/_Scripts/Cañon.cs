@@ -8,7 +8,7 @@ public class Cañon : MonoBehaviour
     [SerializeField] private GameObject BalaPrefab;
     private GameObject puntaCañon;
     private float rotacion;
-
+    public AdministradorJuego administrador;
 
 
     private void Start()
@@ -30,11 +30,20 @@ public class Cañon : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject temp = Instantiate(BalaPrefab, puntaCañon.transform.position, transform.rotation);
-            Rigidbody tempRB = temp.GetComponent<Rigidbody>();
-            Vector3 direccionDisparo = transform.rotation.eulerAngles;
-            direccionDisparo.y = 90 - direccionDisparo.x;
-            tempRB.linearVelocity = direccionDisparo.normalized * AdministradorJuego.VelocidadBala;
+            if (AdministradorJuego.DisparosPorJuego > 0)
+            {
+                GameObject temp = Instantiate(BalaPrefab, puntaCañon.transform.position, transform.rotation);
+                Rigidbody tempRB = temp.GetComponent<Rigidbody>();
+                Vector3 direccionDisparo = transform.rotation.eulerAngles;
+                direccionDisparo.y = 90 - direccionDisparo.x;
+                tempRB.linearVelocity = direccionDisparo.normalized * AdministradorJuego.VelocidadBala;
+
+                AdministradorJuego.DisparosPorJuego--;
+            }
+            else
+            {
+                Debug.Log("¡Ya no quedan disparos!");
+            }
         }
     }
 }

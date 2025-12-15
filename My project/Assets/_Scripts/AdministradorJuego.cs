@@ -8,6 +8,7 @@ public class AdministradorJuego : MonoBehaviour
     public static int DisparosPorJuego = 10;
     public static float VelocidadRotacion = 1;
 
+
     private void Awake()
     {
         if (SingletonAdministradorJuego == null)
