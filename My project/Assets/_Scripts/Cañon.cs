@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Cañon : MonoBehaviour
 {
+    public static bool Bloqueado;
+
 
     [SerializeField] private GameObject BalaPrefab;
     private GameObject puntaCañon;
@@ -28,15 +30,17 @@ public class Cañon : MonoBehaviour
         if (rotacion > 90) rotacion = 90;
         if (rotacion <0) rotacion = 0;
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space)&&!Bloqueado)
         {
             if (AdministradorJuego.DisparosPorJuego > 0)
             {
                 GameObject temp = Instantiate(BalaPrefab, puntaCañon.transform.position, transform.rotation);
                 Rigidbody tempRB = temp.GetComponent<Rigidbody>();
+                SeguirCamara.objetivo = temp;
                 Vector3 direccionDisparo = transform.rotation.eulerAngles;
                 direccionDisparo.y = 90 - direccionDisparo.x;
                 tempRB.linearVelocity = direccionDisparo.normalized * AdministradorJuego.VelocidadBala;
+                Bloqueado = true;
 
                 AdministradorJuego.DisparosPorJuego--;
             }
