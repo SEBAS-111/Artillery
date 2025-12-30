@@ -2,9 +2,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Cañon : MonoBehaviour
 {
+    public Slider fuerzaSlider;
+    public float fuerzaMinima = 0.5f;
+    public float fuerzaMaxima = 1.5f;
+
     public static bool Bloqueado;
 
     public AudioClip clipDisparo;
@@ -88,6 +93,7 @@ public class Cañon : MonoBehaviour
         GameObject Particulas = Instantiate
             (ParticulasDisparo, puntaCañon.transform.position, Quaternion.Euler(direccionParticulas), transform);
         tempRB.linearVelocity = direccionDisparo.normalized * AdministradorJuego.VelocidadBala;
+        float fuerza = Mathf.Lerp(fuerzaMinima, fuerzaMaxima, fuerzaSlider.value);
         //SourceDisparo.PlayOneShot(clipDisparo);
         AdministradorJuego.DisparosPorJuego--;
         SourceDisparo.Play();
