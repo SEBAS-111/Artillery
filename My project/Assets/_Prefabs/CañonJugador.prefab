@@ -744,4 +744,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d452ebcf7330c24c8fb53ee0d03e1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BalaPrefab: {fileID: 3076321463005630108, guid: 3a2e423d90bb80d49bbe6a61dab8f17f, type: 3}
+  fuerzaSlider: {fileID: 0}
+  clipDisparo: {fileID: 8300000, guid: 3598b9c2e1b23ae4483dc2265ae98f7d, type: 3}
+  BalaPrefab: {fileID: 3076321463005630108, guid: 63d67e91e37348842acf62ed0d717ecc, type: 3}
+  ParticulasDisparo: {fileID: 984302743405971187, guid: ae4dabdb2bd0a4143809db175a2f36d0, type: 3}
+  administrador: {fileID: 0}

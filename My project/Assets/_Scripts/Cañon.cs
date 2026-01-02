@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Runtime.CompilerServices;
 
 public class Cañon : MonoBehaviour
 {
     public Slider fuerzaSlider;
     public float fuerzaMinima = 0.5f;
     public float fuerzaMaxima = 1.5f;
-
     public static bool Bloqueado;
 
     public AudioClip clipDisparo;
@@ -83,22 +83,46 @@ public class Cañon : MonoBehaviour
 
     private void Disparar(InputAction.CallbackContext context)
     {
-        GameObject temp = Instantiate(BalaPrefab, puntaCañon.transform.position, transform.rotation);
+        if (Bloqueado == false && AdministradorJuego.DisparosPorJuego > 0)
+        {
+            GameObject temp = Instantiate(BalaPrefab, puntaCañon.transform.position, transform.rotation);
 
-        Rigidbody tempRB = temp.GetComponent<Rigidbody>();
-        SeguirCamara.objetivo = temp;
-        Vector3 direccionDisparo = transform.rotation.eulerAngles;
-        direccionDisparo.y = 90 - direccionDisparo.x;
-        Vector3 direccionParticulas = new Vector3(-90 + direccionDisparo.x, 90, 0);
-        GameObject Particulas = Instantiate
-            (ParticulasDisparo, puntaCañon.transform.position, Quaternion.Euler(direccionParticulas), transform);
-        tempRB.linearVelocity = direccionDisparo.normalized * AdministradorJuego.VelocidadBala;
-        float fuerza = Mathf.Lerp(fuerzaMinima, fuerzaMaxima, fuerzaSlider.value);
-        //SourceDisparo.PlayOneShot(clipDisparo);
-        AdministradorJuego.DisparosPorJuego--;
-        SourceDisparo.Play();
-        Bloqueado = true;
+            Rigidbody tempRB = temp.GetComponent<Rigidbody>();
+            SeguirCamara.objetivo = temp;
+            Vector3 direccionDisparo = transform.rotation.eulerAngles;
+            direccionDisparo.y = 90 - direccionDisparo.x;
+            Vector3 direccionParticulas = new Vector3(-90 + direccionDisparo.x, 90, 0);
+            GameObject Particulas = Instantiate
+                (ParticulasDisparo, puntaCañon.transform.position, Quaternion.Euler(direccionParticulas), transform);
+            tempRB.linearVelocity = direccionDisparo.normalized * AdministradorJuego.VelocidadBala * fuerzaSlider.value;
+            //SourceDisparo.PlayOneShot(clipDisparo);
+            AdministradorJuego.DisparosPorJuego--;
+            SourceDisparo.Play();
+            Bloqueado = true;
+        }
 
+        disparar.performed += Disparar;
+        modificarFuerza.performed += ModFuerza_ejemploFuncion;
+    }
+
+    private void OnDisable()
+    {
+        disparar.performed -= Disparar;
+        modificarFuerza.performed -= ModFuerza_ejemploFuncion;
+    }
+
+    private void ModFuerza_ejemploFuncion(InputAction.CallbackContext context)
+    {
+        float valorinput = context.ReadValue<float>();
+
+        if (valorinput == 1f)
+        {
+            fuerzaSlider.value += 1f;
+        }
+        else if (valorinput == -1f)
+        {
+            fuerzaSlider.value -= 1f;
+        }
 
     }
 }
