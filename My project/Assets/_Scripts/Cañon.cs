@@ -43,6 +43,15 @@ public class Cañon : MonoBehaviour
         modificarFuerza.Enable();
         disparar.Enable();
         disparar.performed += Disparar;
+        disparar.performed += Disparar;
+        modificarFuerza.performed += ModFuerza_ejemploFuncion;
+
+    }
+
+    private void OnDisable()
+    {
+        disparar.performed -= Disparar;
+        modificarFuerza.performed -= ModFuerza_ejemploFuncion;
     }
 
 
@@ -101,14 +110,7 @@ public class Cañon : MonoBehaviour
             Bloqueado = true;
         }
 
-        disparar.performed += Disparar;
-        modificarFuerza.performed += ModFuerza_ejemploFuncion;
-    }
-
-    private void OnDisable()
-    {
-        disparar.performed -= Disparar;
-        modificarFuerza.performed -= ModFuerza_ejemploFuncion;
+        
     }
 
     private void ModFuerza_ejemploFuncion(InputAction.CallbackContext context)
